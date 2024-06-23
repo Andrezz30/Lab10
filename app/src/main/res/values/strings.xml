@@ -1,13 +1,24 @@
 <resources>
+
+    <!--Navigation Header-->
     <string name="app_name">WikiLocation</string>
+    <string name="copyright">© Dispositivos móviles</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="menu_camera">Buscador</string>
-    <string name="menu_share">Compartir</string>
-    <string name="menu_send">Enviar</string>
-    <string name="menu_group">Groupo</string>
-    <string name="copyright">© Dispositivos móviles</string>
+    <!--Home Fragment-->
+    <string name="welcome_message">Bienvenido a WikiLocation</string>
+    <string name="obtener_ubicacion">Obtener ubicacion:</string>
+    <!--Main Activity Navigation Drawer-->
+    <string name="home_fragment">Inicio</string>
+    <string name="buscador_fragment">Buscador</string>
+    <string name="menu_directions">Lugares visitados</string>
+    <string name="frecuente_fragment">Frecuentes</string>
+    <!--Botones-->
+    <string name="boton_volver">Volver</string>
+    <string name="boton_buscar">Buscar</string>
+    <string name="boton_iniciar">Iniciar</string>
+    <string name="boton_detener">Detener</string>
+    <!--API KEY-->
     <string name="google_maps_api_key">AIzaSyBLiFVeg7U_Ugu5bMf7EQ_TBEfPE3vOSF4</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment genérico</string>
+
 </resources>

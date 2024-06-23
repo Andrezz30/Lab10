@@ -27,7 +27,6 @@
             android:exported="true">
 
         </service>
-        <activity android:name=".VistaWeb" />
 
         <activity
             android:name=".MainActivity"

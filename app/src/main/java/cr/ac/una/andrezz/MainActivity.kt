@@ -1,5 +1,7 @@
 package cr.ac.una.andrezz
 
+//import androidx.fragment.app.commit
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,15 +10,12 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-//import androidx.fragment.app.commit
 import com.google.android.material.navigation.NavigationView
-import android.Manifest
-import androidx.core.app.ActivityCompat
-import cr.ac.una.andrezz.R
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         reemplazarFragmento(Home(), "WikiLocation")
@@ -87,9 +87,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val title: Int
         lateinit var fragment: Fragment
         when (menuItem.itemId) {
-            R.id.nav_camera -> {
-                title = R.string.menu_camera
+            R.id.home_fragment -> {
+                title = R.string.home_fragment
+                fragment = Home()
+            }
+            R.id.buscador_fragment -> {
+                title = R.string.buscador_fragment
                 fragment = ListControlFinancieroFragment()
+            }
+            R.id.lugares_b_d -> {
+                title = R.string.menu_directions
+                fragment = LugaresFragment()
+            }
+            R.id.frecuente_fragment -> {
+                title = R.string.frecuente_fragment
+                fragment = FrecuentesFragment()
             }
 
             else -> {

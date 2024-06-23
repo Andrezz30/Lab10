@@ -9,4 +9,5 @@ class PageController {
     suspend fun  Buscar(terminoBusqueda: String):ArrayList<page>{
         return pagesService.apiWikiService.Buscar(terminoBusqueda).pages as ArrayList<page>
     }
+
 }

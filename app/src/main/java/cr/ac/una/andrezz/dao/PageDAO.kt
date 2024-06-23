@@ -1,10 +1,25 @@
 package cr.ac.una.andrezz.dao
 
-import cr.ac.una.andrezz.clases.pages
-import retrofit2.http.GET
-import retrofit2.http.Path
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import cr.ac.una.andrezz.clases.Pagina
 
+@Dao
 interface PageDAO {
-    @GET("page/related/{title}")
-    suspend fun Buscar(@Path("title") title: String): pages
+    @Insert
+    fun insert(entity: Pagina)
+
+    @Update
+    fun update(entity: Pagina)
+
+    @Query("SELECT * FROM Pagina")
+    fun getAll(): List<Pagina?>?
+
+    @Query("SELECT * FROM Pagina ORDER BY vecesVisto DESC LIMIT :limit")
+    suspend fun getAll(limit: Int): List<Pagina>
+
+    @Query("DELETE FROM Pagina")
+    suspend fun deleteAll()
 }

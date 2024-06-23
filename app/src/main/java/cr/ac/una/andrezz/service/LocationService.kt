@@ -29,15 +29,16 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import cr.ac.una.andrezz.MainActivity
 import cr.ac.una.andrezz.R
 import cr.ac.una.andrezz.VistaWeb
+import cr.ac.una.andrezz.clases.Pagina
 import cr.ac.una.andrezz.controller.PageController
+import cr.ac.una.andrezz.dao.PageDAO
+import cr.ac.una.andrezz.db.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import java.io.FileInputStream
-import java.io.InputStream
-import java.util.Properties
+import java.time.LocalDateTime
 import kotlin.properties.Delegates
 
 var auxName = ""
@@ -208,6 +209,8 @@ class LocationService : Service() {
     }
     private val serviceScope = CoroutineScope(Dispatchers.IO)
     private fun searchWikipediaAndNotify(placeName: String) {
+        lateinit var movimientoDao: PageDAO
+        movimientoDao = AppDatabase.getInstance(this).ubicacionDao()
         val formattedQuery = placeName.replace(" ", "_")
         serviceScope.launch {
             try {
@@ -220,6 +223,45 @@ class LocationService : Service() {
                     val wikipediaUrl = "https://es.wikipedia.org/wiki/$firstResultTitle"
                     sendNotification("Latitud: $latitude \nLongitud: $longitude\nArticulo:Si", wikipediaUrl)
                     Log.d("ResultadoBusqueda", "Se encontró información: $resultadoBusqueda")
+                    val current = LocalDateTime.now()
+                     var aux = false
+                    lateinit var pagina: Pagina
+                    val listaLugares = withContext(Dispatchers.Default) {
+                        movimientoDao.getAll()
+                    }
+
+
+                    if (!listaLugares.isNullOrEmpty()) {
+                        for (i in listaLugares){
+                            if (i != null) {
+                                if(i.titulo == placeName){
+                                    movimientoDao.update(Pagina(i.id,i._uuid,i.vecesVisto+1,i.titulo,i.fecha,i.descripcion,i.imagen,i.coordenadas,i.url))
+                                    Log.d("Base de datos", "Se ACTUALIZO con exito en la base de datos")
+                                    aux = true
+                                    break
+                                }
+                            }
+                        }
+                        if (aux==false){
+                            pagina = Pagina(
+                                null, null, 1, placeName, current, resultadoBusqueda.first().extract,
+                                resultadoBusqueda.first().thumbnail, "Latitud:$latitude, Longitud:$longitude",
+                                wikipediaUrl)
+                            movimientoDao.insert(pagina)
+                            Log.d("Base de datos", "Se guarda con exito en la base de datos")
+                        }
+
+
+                    }else{
+                        pagina = Pagina(
+                            null, null, 1, placeName, current, resultadoBusqueda.first().extract,
+                            resultadoBusqueda.first().thumbnail, "latitude,longitude",wikipediaUrl
+                        )
+                            movimientoDao.insert(pagina)
+
+                        Log.d("Base de datos", "Se guarda con exito en la base de datos")
+                    }
+
                 } else {
                     Log.d("ResultadoBusqueda", "No se encontró información")
                 }
@@ -231,6 +273,7 @@ class LocationService : Service() {
             }
         }
     }
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }

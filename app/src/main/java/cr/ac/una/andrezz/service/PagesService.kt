@@ -1,7 +1,7 @@
 package cr.ac.una.andrezz.service
 
 import com.google.gson.GsonBuilder
-import cr.ac.una.andrezz.dao.PageDAO
+import cr.ac.una.andrezz.dao.BuscadorDAO
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,5 +13,6 @@ class PagesService {
         .baseUrl("https://es.wikipedia.org/api/rest_v1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    val apiWikiService = retrofit.create(PageDAO::class.java)
+    val apiWikiService = retrofit.create(BuscadorDAO::class.java)
+
 }

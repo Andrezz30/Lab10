@@ -37,20 +37,6 @@ class BuscadorAdapter(context: Context, pages: List<page>) :
                 .into(imageView)
         }
 
-        /*view.setOnClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("page", pageItem)
-                putString("url", "https://es.wikipedia.org/wiki/${pageItem?.title}") // Construye la URL del artículo de la lista Wiki
-            }
-            val fragment = VistaWeb().apply {
-                arguments = bundle
-            }
-            (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.home_content, fragment)
-                .addToBackStack(null)
-                .commit()
-        }*/
-
         return view
     }
 }
