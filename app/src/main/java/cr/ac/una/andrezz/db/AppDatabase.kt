@@ -9,7 +9,7 @@ import cr.ac.una.andrezz.clases.Pagina
 import cr.ac.una.andrezz.converter.Converters
 import cr.ac.una.andrezz.dao.PageDAO
 
-@Database(entities = [Pagina::class], version = 7)
+@Database(entities = [Pagina::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

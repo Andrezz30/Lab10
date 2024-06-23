@@ -12,7 +12,8 @@
     <string name="home_fragment">Inicio</string>
     <string name="buscador_fragment">Buscador</string>
     <string name="menu_directions">Lugares visitados</string>
-    <string name="frecuente_fragment">Frecuentes</string>
+    <string name="frecuente_fragment">Lugares frecuentes</string>
+    <string name="config_fragment">Configuración</string>
     <!--Botones-->
     <string name="boton_volver">Volver</string>
     <string name="boton_buscar">Buscar</string>
