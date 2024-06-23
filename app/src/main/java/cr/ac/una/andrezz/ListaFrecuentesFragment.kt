@@ -1,5 +1,6 @@
 package cr.ac.una.andrezz
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,38 +16,52 @@ import cr.ac.una.andrezz.db.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-class ListaFrecuentesFragment :Fragment() {
+
+class ListaFrecuentesFragment : Fragment() {
     private lateinit var paginasDao: PageDAO
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_item_list, container, false)
-
         paginasDao = AppDatabase.getInstance(requireContext()).ubicacionDao()
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val listView = view.findViewById<ListView>(R.id.listaFrecuentes)
-        val numeroFrecuentes = arguments?.getString("numeroFrecuentes")?.toInt() // Recupera el valor del Bundle
+        var numeroFrecuentes = arguments?.getString("numeroFrecuentes")?.toInt()
+            //?: obtenerNumeroFrecuentes(requireContext()) // Recupera el valor del Bundle o SharedPreferences
+
         Log.d("NumeroFrecuentes", numeroFrecuentes.toString())
+        if(numeroFrecuentes ==null) {
+            numeroFrecuentes= obtenerNumeroFrecuentes(requireContext())
+            guardarNumeroFrecuentes(
+                requireContext(),
+                numeroFrecuentes
+            ) // Guarda el valor para persistencia
+        }else{
+            guardarNumeroFrecuentes(
+                requireContext(),
+                numeroFrecuentes!!
+            ) // Guarda el valor para persistencia
+        }
         lifecycleScope.launch(Dispatchers.Main) {
             try {
                 val ubicaciones = withContext(Dispatchers.Default) {
-                    //se obtienen las ubicaciones segun el numero como parametro
-                        paginasDao.getAll(numeroFrecuentes!!)
-                     // Obtener los datos de la base de datos
-                }// Crear un adaptador para mostrar los lugares en el ListView
-                val adapter = MyListaFrecuentesAdapter(requireContext(),ubicaciones as List<Pagina>)
+                    paginasDao.getAll(numeroFrecuentes!!)
+                }
+                val adapter = MyListaFrecuentesAdapter(requireContext(), ubicaciones as List<Pagina>)
                 listView.adapter = adapter
 
                 listView.setOnItemClickListener { parent, view, position, id ->
                     val selectedItem = adapter.getItem(position) as Pagina
                     val bundle = Bundle()
                     Log.d("Titulo", selectedItem.titulo)
-                    var url = selectedItem.url
+                    val url = selectedItem.url
                     bundle.putString("url", url)
                     val fragment = VistaWeb()
                     fragment.arguments = bundle
@@ -56,9 +71,20 @@ class ListaFrecuentesFragment :Fragment() {
                         .commit()
                 }
             } catch (e: Exception) {
-                // Manejar errores adecuadamente, como mostrar un mensaje de error al usuario
                 Log.e("TAG1", "Error al cargar datos desde la base de datos: ${e.message}")
             }
         }
+    }
+
+    private fun guardarNumeroFrecuentes(context: Context, valor: Int) {
+        val sharedPreferences = context.getSharedPreferences("preferencias", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("numeroFrecuentes", valor)
+        editor.apply()
+    }
+
+    private fun obtenerNumeroFrecuentes(context: Context): Int {
+        val sharedPreferences = context.getSharedPreferences("preferencias", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("numeroFrecuentes", 1)
     }
 }

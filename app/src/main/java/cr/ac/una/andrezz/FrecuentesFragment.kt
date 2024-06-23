@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 class FrecuentesFragment : Fragment() {
     private lateinit var buscarFrecuentes: Button
     lateinit var numeroCuadro: EditText
-    var numeroFrecuentes: String = "1"      // se inicializa en 1 para que no de error en la busqueda
+    var numeroFrecuentes: String = "0"      // se inicializa en 1 para que no de error en la busqueda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buscarFrecuentes = view.findViewById(R.id.VerBoton)
@@ -22,7 +22,6 @@ class FrecuentesFragment : Fragment() {
             numeroFrecuentes = numeroCuadro.text.toString()
 
             val bundle = Bundle()
-            // Se pasa el numero de frecuentes al fragmento de la lista de frecuentes
             bundle.putString("numeroFrecuentes", numeroFrecuentes) // Agrega el valor al Bundle
             val fragment = ListaFrecuentesFragment()
             fragment.arguments = bundle // Pasa el Bundle al nuevo fragmento

@@ -11,6 +11,7 @@ data class Pagina(
     var vecesVisto: Int,
     var titulo: String,
     var fecha: LocalDateTime,
+    var wikipediaTitulo: String,
     var descripcion: String,
     var imagen: thumbnail,
     var coordenadas: String,

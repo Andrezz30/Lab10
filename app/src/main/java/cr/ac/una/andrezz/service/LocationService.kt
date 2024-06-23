@@ -235,7 +235,7 @@ class LocationService : Service() {
                         for (i in listaLugares){
                             if (i != null) {
                                 if(i.titulo == placeName){
-                                    movimientoDao.update(Pagina(i.id,i._uuid,i.vecesVisto+1,i.titulo,i.fecha,i.descripcion,i.imagen,i.coordenadas,i.url))
+                                    movimientoDao.update(Pagina(i.id,i._uuid,i.vecesVisto+1,i.titulo,i.fecha,i.wikipediaTitulo,i.descripcion,i.imagen,i.coordenadas,i.url))
                                     Log.d("Base de datos", "Se ACTUALIZO con exito en la base de datos")
                                     aux = true
                                     break
@@ -244,7 +244,7 @@ class LocationService : Service() {
                         }
                         if (aux==false){
                             pagina = Pagina(
-                                null, null, 1, placeName, current, resultadoBusqueda.first().extract,
+                                null, null, 1, placeName, current,formattedQuery, resultadoBusqueda.first().extract,
                                 resultadoBusqueda.first().thumbnail, "Latitud:$latitude, Longitud:$longitude",
                                 wikipediaUrl)
                             movimientoDao.insert(pagina)
@@ -254,7 +254,7 @@ class LocationService : Service() {
 
                     }else{
                         pagina = Pagina(
-                            null, null, 1, placeName, current, resultadoBusqueda.first().extract,
+                            null, null, 1, placeName, current,formattedQuery, resultadoBusqueda.first().extract,
                             resultadoBusqueda.first().thumbnail, "latitude,longitude",wikipediaUrl
                         )
                             movimientoDao.insert(pagina)

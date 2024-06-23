@@ -2,7 +2,6 @@ package cr.ac.una.andrezz
 
 //import androidx.fragment.app.commit
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
@@ -101,6 +100,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.frecuente_fragment -> {
                 title = R.string.frecuente_fragment
+                fragment = ListaFrecuentesFragment()
+            }
+            R.id.config_fragment -> {
+                title = R.string.config_fragment
                 fragment = FrecuentesFragment()
             }
 
@@ -120,10 +123,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .replace(R.id.home_content, fragment)
             .commit()
         setTitle(title)
-    }
-    fun volverAlMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
     }
 
 }
